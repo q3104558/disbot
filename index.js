@@ -128,7 +128,7 @@ client.on('message', async (message) => {
     // namHigh keeps track of the highest value in nams
     let namHigh = 0
     for (let i = 1; i <= lineCount; i++) {
-      console.log(`otherArgText[${i}]: ${otherArgText[i]}`)
+      // console.log(`otherArgText[${i}]: ${otherArgText[i]}`)
       let otherArgs = otherArgText[i].split(/ +/)
       nams[i - 1] = parseInt(otherArgs[0], 10)
       if (isNaN(nams[i - 1]) || nams[i - 1] >= 70) {
@@ -151,7 +151,7 @@ client.on('message', async (message) => {
       // console.log('args:', otherArgText)
       let resultMsg = 'time\'s up!'
       for (let i = 0; i < otherArgText.length; i++) {
-        console.log(`here is where i would do \`%%types${i} ${otherArgText[i]}\``)
+        // console.log(`here is where i do \`%%types${i} ${otherArgText[i]}\``)
         message.channel.send(`%%types${i} ${otherArgText[i]}`)
       }
     }
@@ -217,11 +217,11 @@ client.on('message', async (message) => {
     }
     catch (err) {
       // if the API returns an error
-      console.log('cat error')
+      console.log('cat error!')
       // console.log(err.stack)
       embed
         .setColor('#C7D62C')
-        .setTitle(':cat:')
+        .setTitle(':cat2:')
       message.channel.send({ embed })
     }
   } // joke
@@ -229,7 +229,7 @@ client.on('message', async (message) => {
     let funny = 'ha ha'
     const bod = await snekfetch.get('https://icanhazdadjoke.com/')
       .set('Accept', 'application/json')
-      // .set('User-Agent', 'ZRPizza discord bot (zachstevens39@gmail.com)')
+      .set('User-Agent', 'Zach\'s discord bot (zachstevens39@gmail.com)')
       .then((r) => {
         // console.log(r.body.joke)
         funny = r.body
@@ -257,9 +257,10 @@ client.on('message', async (message) => {
     message.reply('omz! thanks for the support')
   } // help
   else if (command === 'help') {
-    if (!args[0]) {
+    if (!args[0] || !(args[0].startsWith('type'))) {
       let blah = `
 __**commands**__
+
 
 __type__
 speed typing timer \`\`\`%%type <seconds> [words to type]\`\`\`
@@ -273,7 +274,7 @@ __dog__
 posts a random dog \`\`\`%%dog\`\`\`
 
 __cat__
-posts either a random cat or :cat: \`\`\`%%cat\`\`\`
+posts either a random cat or :cat2: \`\`\`%%cat\`\`\`
 
 __joke__
 posts a random joke \`\`\`%%joke\`\`\`
@@ -329,8 +330,14 @@ __AAAAAAAAAA__
   } // ping
   else if (command === 'ping') {
     message.channel.send('pizza!')
+  } // pong
+  else if (command === 'pong') {
+    message.channel.send(':ping_pong:')
   } // pizza
-  else if (command === 'pizza') {
+  else if (command === 'pizza' || command === ':pizza:') {
+    message.channel.send(':pizza:')
+  } // ok
+  else if (command === 'ok') {
     message.channel.send(':shrug:')
   } // poop
   else if (command === 'poop') {
@@ -338,7 +345,7 @@ __AAAAAAAAAA__
       message.reply(':poop:')
     }
     else {
-      message.reply('no pls')
+      message.reply('pls no')
     }
   } // blargh
   else if (command === 'blah' || command === 'blargh') {

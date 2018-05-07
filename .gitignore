@@ -59,3 +59,6 @@ typings/
 
 # API key file
 config.json
+
+# Mac OS junk
+.DS_Store

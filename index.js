@@ -257,74 +257,70 @@ client.on('message', async (message) => {
     message.reply('omz! thanks for the support')
   } // help
   else if (command === 'help') {
-    if (args[0].startsWith('type')) {
-      message.channel.send('command syntax is `%%type <seconds> [words to type]`')
-      sendThatMessage(2000, 'that\'s all i know')
-      sendThatMessage(3000, 'sorry if i wasn\'t helpful enough')
-    }
-    else if (!args[0]) {
+    if (!args[0]) {
       let blah = `
-        __**commands**__
+__**commands**__
 
-        __type__
-        speed typing timer command
-        \`%%type <seconds> [words to type]\`
+__type__
+speed typing timer \`\`\`%%type <seconds> [words to type]\`\`\`
 
-        __dog__
-        posts a random dog
-        \`%%dog\`
+__type-all__
+speed typing timer for multiple phrases \`\`\`%%type-all
+<seconds> [words to type]
+<seconds> [other words to type]\`\`\`
 
-        __cat__
-        posts either a random cat or :cat:
-        \`%%cat\`
+__dog__
+posts a random dog \`\`\`%%dog\`\`\`
 
-        __joke__
-        posts a random joke
-        \`%%joke\`
+__cat__
+posts either a random cat or :cat: \`\`\`%%cat\`\`\`
 
-        __thanks__
-        show your appreciation
-        \`%%thanks @ZRPizza#5682\`
+__joke__
+posts a random joke \`\`\`%%joke\`\`\`
 
-        __help__
-        sends you this message
-        \`%%help\`
+__thanks__
+show your appreciation \`\`\`%%thanks @ZRPizza#5682\`\`\`
 
-        __ping__
-        ping
-        \`%%ping\`
+__help__
+sends you this message \`\`\`%%help\`\`\`
 
-        __pizza__
-        idk
-        \`%%pizza\`
+__ping__
+ping \`\`\`%%ping\`\`\`
 
-        __poop__
-        pls don't do this command pls
-        \`%%poop\`
+__pizza__
+idk \`\`\`%%pizza\`\`\`
 
-        __boob__
-        nsfw
-        \`%%boob\`
+__poop__
+pls don't do this command pls \`\`\`%%poop\`\`\`
 
-        __blargh__
-        barfing gif
-        \`%%blargh\`
+__boob__
+nsfw \`\`\`%%boob\`\`\`
 
-        __scary__
-        scary gif
-        \`%%scary\`
+__blargh__
+barfing gif \`\`\`%%blargh\`\`\`
 
-        __gnome__
-        gnome emoji
-        \`%%gnome\`
+__scary__
+scary gif \`\`\`%%scary\`\`\`
 
-        __AAAAAAAAAA__
-        :AAAAAAAAAA: AAAAAAAAAA
-        \`%%AAAAAAAAAA\`
-        `
+__gnome__
+gnome emoji \`\`\`%%gnome\`\`\`
+
+__AAAAAAAAAA__
+:AAAAAAAAAA: AAAAAAAAAA \`\`\`%%AAAAAAAAAA\`\`\`
+`
       message.author.send(blah)
         .then(message.channel.send('ok i just pm\'d you my command list'))
         .catch(console.error)
+    }
+    else if (args[0].startsWith('type')) {
+      message.channel.send(`command syntax is either
+        \`\`\`%%type <seconds> [words to type]\`\`\`
+        or
+        \`\`\`%%type-all
+        <seconds> [words to type]
+        <seconds> [other words to type]\`\`\``)
+      sendThatMessage(3000, 'that\'s all i know')
+      sendThatMessage(4000, 'sorry if i wasn\'t helpful enough')
     }
     else {
       message.channel.send('idk how to help you')

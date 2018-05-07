@@ -288,8 +288,14 @@ sends you this message \`\`\`%%help\`\`\`
 __ping__
 ping \`\`\`%%ping\`\`\`
 
+__pong__
+pong \`\`\`%%pong\`\`\`
+
 __pizza__
-idk \`\`\`%%pizza\`\`\`
+:pizza: \`\`\`%%pizza\`\`\`
+
+__ok__
+idk \`\`\`%%ok\`\`\`
 
 __poop__
 pls don't do this command pls \`\`\`%%poop\`\`\`

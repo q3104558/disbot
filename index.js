@@ -422,6 +422,14 @@ __AAAAAAAAAA__
 \`\`\`
     `)
     }
+  } // secret
+  else if (command === 'secret' || command === 'c7d62c' || command === 'snot') {
+    message.channel.send({
+      files: [{
+        attachment: 'src/c7d62c.png',
+        name: 'c7d62c.png'
+      }]
+    })
   } // anything else
   else {
     message.reply('pls do a real command pls')

@@ -11,6 +11,29 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+const editTimer = async (secs, msg, textArg) => {
+  let temp = 0
+  if (secs > 16) {
+    temp = secs - 10
+    await sleep(10000)
+    msg.edit(`t-**${temp}**`)
+    return editTimer(temp, msg, textArg)
+  }
+  else if (secs > 5) {
+    temp = secs - 3
+    await sleep(3000)
+    msg.edit(`t-**${temp}**`)
+    return editTimer(temp, msg, textArg)
+  }
+  else if (secs > 0) {
+    temp = secs - 1
+    await sleep(1000)
+    msg.edit(`t-**${temp}**`)
+    return editTimer(temp, msg, textArg)
+  }
+  // msg.react('⏰')
+  return msg.edit('t-:zero:')
+}
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -20,36 +43,40 @@ client.on('ready', () => {
 process.on('unhandledRejection', error => console.error(`Uncaught Promise Rejection:\n${error}`))
 
 client.on('message', async (message) => {
-  if (!message.content.startsWith(prefix)) return
+  if (!message.content.startsWith(prefix) && !message.content.includes('ACTIVATING PARROT MODE')) return
+
+  if (message.content.includes('ACTIVATING PARROT MODE')) {
+    message.channel.send('no!')
+  }
 
   const editThatMessage = async (ms, content) => {
     await sleep(ms)
     return message.edit(content)
   }
 
-  const editTimer = async (secs, msg, textArg) => {
-    let temp = 0
-    if (secs > 16) {
-      temp = secs - 10
-      await sleep(10000)
-      msg.edit(`t-**${temp}**`)
-      return editTimer(temp, msg, textArg)
-    }
-    else if (secs > 5) {
-      temp = secs - 3
-      await sleep(3000)
-      msg.edit(`t-**${temp}**`)
-      return editTimer(temp, msg, textArg)
-    }
-    else if (secs > 0) {
-      temp = secs - 1
-      await sleep(1000)
-      msg.edit(`t-**${temp}**`)
-      return editTimer(temp, msg, textArg)
-    }
-    // msg.react('⏰')
-    return msg.edit('t-:zero:')
-  }
+  // const editTimer = async (secs, msg, textArg) => {
+  //   let temp = 0
+  //   if (secs > 16) {
+  //     temp = secs - 10
+  //     await sleep(10000)
+  //     msg.edit(`t-**${temp}**`)
+  //     return editTimer(temp, msg, textArg)
+  //   }
+  //   else if (secs > 5) {
+  //     temp = secs - 3
+  //     await sleep(3000)
+  //     msg.edit(`t-**${temp}**`)
+  //     return editTimer(temp, msg, textArg)
+  //   }
+  //   else if (secs > 0) {
+  //     temp = secs - 1
+  //     await sleep(1000)
+  //     msg.edit(`t-**${temp}**`)
+  //     return editTimer(temp, msg, textArg)
+  //   }
+  //   // msg.react('⏰')
+  //   return msg.edit('t-:zero:')
+  // }
 
   const sendThatMessage = async (ms, content) => {
     await sleep(ms)
@@ -423,13 +450,30 @@ __AAAAAAAAAA__
     `)
     }
   } // secret
-  else if (command === 'secret' || command === 'c7d62c' || command === 'snot') {
+  else if (command === 'secret' || command === 'c7d62c' || command === '<:c7d62c:442095242049617957>') {
     message.channel.send({
       files: [{
         attachment: 'src/c7d62c.png',
         name: 'c7d62c.png'
       }]
     })
+  } // snot lore
+  else if (command === 'snot') {
+    if (!args[0]) {
+      message.channel.send('SNOT is an rp about a meme')
+    }
+    else {
+      const embed = new Discord.RichEmbed()
+        .setColor('#C7D62C')
+        .setTitle('c7d62c')
+        .setURL('https://imgur.com/gr4fxNB')
+      message.reply('do you wanna know the truth about SNOT?')
+      sendThatMessage(3000, 'ok, i\'ll tell you')
+      sendThatMessage(4000, 'it all started with y')
+      await sleep(4050)
+        .then(gah => message.channel.send(embed))
+    }
+    // message.channel.send()
   } // anything else
   else {
     message.reply('pls do a real command pls')

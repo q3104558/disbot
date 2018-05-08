@@ -1,9 +1,11 @@
 const Discord = require('discord.js')
-const {
-  prefix,
-  token
-} = require('./config.json')
 const snekfetch = require('snekfetch')
+
+// const {
+//   prefix,
+//   token
+// } = require('./config.json')
+const prefix = process.env.PREFIX
 
 const client = new Discord.Client()
 
@@ -480,4 +482,4 @@ __AAAAAAAAAA__
   }
 })
 
-client.login(token)
+client.login(process.env.TOKEN)

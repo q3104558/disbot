@@ -38,7 +38,8 @@ const editTimer = async (secs, msg, textArg) => {
 }
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`)
+  let datnow = new Date()
+  console.log(`${datnow.toTimeString()}  Logged in as ${client.user.tag}!`)
   client.user.setActivity('%%commands', { type: 'LISTENING' })
 })
 
@@ -47,8 +48,9 @@ process.on('unhandledRejection', error => console.error(`Uncaught Promise Reject
 client.on('message', async (message) => {
   if (!message.content.startsWith(prefix) && !message.content.includes('ACTIVATING PARROT MODE')) return
 
-  if (message.content.includes('ACTIVATING PARROT MODE')) {
+  if (message.content.includes('ACTIVATING PARROT MODE') && message.author.bot) {
     message.channel.send('no!')
+    return
   }
 
   const editThatMessage = async (ms, content) => {
@@ -56,48 +58,18 @@ client.on('message', async (message) => {
     return message.edit(content)
   }
 
-  // const editTimer = async (secs, msg, textArg) => {
-  //   let temp = 0
-  //   if (secs > 16) {
-  //     temp = secs - 10
-  //     await sleep(10000)
-  //     msg.edit(`t-**${temp}**`)
-  //     return editTimer(temp, msg, textArg)
-  //   }
-  //   else if (secs > 5) {
-  //     temp = secs - 3
-  //     await sleep(3000)
-  //     msg.edit(`t-**${temp}**`)
-  //     return editTimer(temp, msg, textArg)
-  //   }
-  //   else if (secs > 0) {
-  //     temp = secs - 1
-  //     await sleep(1000)
-  //     msg.edit(`t-**${temp}**`)
-  //     return editTimer(temp, msg, textArg)
-  //   }
-  //   // msg.react('⏰')
-  //   return msg.edit('t-:zero:')
-  // }
-
   const sendThatMessage = async (ms, content) => {
     await sleep(ms)
     return message.channel.send(content)
   }
 
-  const typeThatMessage = async (ms, content) => {
-    message.channel.startTyping()
-    await sleep(ms)
-    // .then(message.channel.stopTyping())
-    return message.channel.send(content)
-  }
+  // const typeThatMessage = async (ms, content) => {
+  //   message.channel.startTyping()
+  //   await sleep(ms)
+  //   // .then(message.channel.stopTyping())
+  //   return message.channel.send(content)
+  // }
 
-  const sendYes = (content) => {
-    message.channel.send(`:thumbsup: ${content}`)
-  }
-  const sendNo = (content) => {
-    message.channel.send(`:skull_crossbones: ${content}`)
-  }
 
   const args = message.content.slice(prefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
@@ -109,7 +81,8 @@ client.on('message', async (message) => {
   let aa = new RegExp(/[a]{2,}/i)
 
 
-  console.log(`${message.author.tag}  -  ${command} ${textArg}`)
+  let datnow = new Date()
+  console.log(`${datnow.toTimeString()}  ${message.author.tag}  -  ${command} ${textArg}`)
 
   // literally nothing
   if (command === '') {
@@ -135,14 +108,14 @@ client.on('message', async (message) => {
         console.log(`${i} ${collected.size} correct answers`)
         if (collected.size === 0) {
           console.log(`${i} first: (literally nobody)`)
-          sendNo(`no one correctly typed **#${i}**`)
+          message.channel.send(`:skull_crossbones: no one correctly typed **#${i}**`)
         }
         else {
           const correctKey = collected.firstKey()
           const correctUser = message.channel.fetchMessage(correctKey)
             .then((ms) => {
               console.log(`${i} first: ${ms.author.tag}`)
-              sendYes(`you did **#${i}**, ${ms.author}**!**`)
+              message.channel.send(`:thumbsup: you did **#${i}**, ${ms.author}**!**`)
             })
         }
       })
@@ -211,14 +184,14 @@ client.on('message', async (message) => {
         console.log(`${collected.size} correct answers`)
         if (collected.size === 0) {
           console.log('first: (literally nobody)')
-          sendNo(`no one correctly typed '${textArg2}'`)
+          message.channel.send(`:skull_crossbones: no one correctly typed '${textArg2}'`)
         }
         else {
           const correctKey = collected.firstKey()
           const correctUser = message.channel.fetchMessage(correctKey)
             .then((ms) => {
               console.log(`first: ${ms.author.tag}`)
-              sendYes(`you did it, ${ms.author}**!**`)
+              message.channel.send(`:thumbsup: you did it, ${ms.author}**!**`)
             })
         }
       })
@@ -473,7 +446,8 @@ __AAAAAAAAAA__
       sendThatMessage(3000, 'ok, i\'ll tell you')
       sendThatMessage(4000, 'it all started with y')
       await sleep(4050)
-        .then(gah => message.channel.send(embed))
+        .then(gah => message.channel.send(embed)
+          .then(msg => msg.react('442095242049617957')))
     }
     // message.channel.send()
   } // anything else

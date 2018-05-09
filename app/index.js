@@ -60,7 +60,7 @@ process.on('unhandledRejection', error => console.error(`Uncaught Promise Reject
 client.on('message', async (message) => {
   if (!message.content.startsWith(prefix) && !message.content.includes('ACTIVATING PARROT MODE')) return
 
-  if (message.content.includes('ACTIVATING PARROT MODE')) {
+  if (message.content.includes('ACTIVATING PARROT MODE') && message.author.bot) {
     message.channel.send('no!')
   }
 
@@ -81,12 +81,12 @@ client.on('message', async (message) => {
     return message.channel.send(content)
   }
 
-  const sendYes = (content) => {
-    message.channel.send(`:thumbsup: ${content}`)
-  }
-  const sendNo = (content) => {
-    message.channel.send(`:skull_crossbones: ${content}`)
-  }
+  // const sendYes = (content) => {
+  //   message.channel.send(`:thumbsup: ${content}`)
+  // }
+  // const sendNo = (content) => {
+  //   message.channel.send(`:skull_crossbones: ${content}`)
+  // }
 
   const args = message.content.slice(prefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
@@ -124,14 +124,14 @@ client.on('message', async (message) => {
         console.log(`${i} ${collected.size} correct answers`)
         if (collected.size === 0) {
           console.log(`${i} first: (literally nobody)`)
-          sendNo(`no one correctly typed **#${i}**`)
+          message.channel.send(`:skull_crossbones: no one correctly typed **#${i}**`)
         }
         else {
           const correctKey = collected.firstKey()
           const correctUser = message.channel.fetchMessage(correctKey)
             .then((ms) => {
               console.log(`${i} first: ${ms.author.tag}`)
-              sendYes(`you did **#${i}**, ${ms.author}**!**`)
+              message.channel.send(`:thumbsup: you did **#${i}**, ${ms.author}**!**`)
             })
         }
       })
@@ -200,14 +200,14 @@ client.on('message', async (message) => {
         console.log(`${collected.size} correct answers`)
         if (collected.size === 0) {
           console.log('first: (literally nobody)')
-          sendNo(`no one correctly typed '${textArg2}'`)
+          message.channel.send(`:skull_crossbones: no one correctly typed '${textArg2}'`)
         }
         else {
           const correctKey = collected.firstKey()
           const correctUser = message.channel.fetchMessage(correctKey)
             .then((ms) => {
               console.log(`first: ${ms.author.tag}`)
-              sendYes(`you did it, ${ms.author}**!**`)
+              message.channel.send(`:thumbsup: you did it, ${ms.author}**!**`)
             })
         }
       })
@@ -471,6 +471,7 @@ __AAAAAAAAAA__
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
+
 /*
 
 
